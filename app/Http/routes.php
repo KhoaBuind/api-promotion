@@ -19,3 +19,9 @@ $app->get('product/{id}','ProductController@getProduct');
 $app->post('product','ProductController@createProduct');
 $app->post('product/{id}','ProductController@updateProduct');
 $app->delete('product/{id}','ProductController@deleteProduct');
+
+$app->get('promotion','PromotionController@index');
+$app->get('promotion/{id}','PromotionController@getProduct');
+$app->post('promotion','PromotionController@createProduct');
+$app->post('promotion/{id}','PromotionController@updateProduct');
+$app->delete('promotion/{id}','PromotionController@deleteProduct');
