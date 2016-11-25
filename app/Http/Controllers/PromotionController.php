@@ -18,7 +18,17 @@ class PromotionController extends Controller
     public function index(Request $request)
     {
 
-        $product = Promotion::all();
+        $search_term = $request->input('search');
+        $limit = $request->input('limit')?$request->input('limit'):5;
+        if($search_term)
+        {
+            $product = Promotion::find(1);
+            //var_dump($product); exit();
+        }
+        else
+        {
+            $product = Promotion::all();
+        }
         return response()->json(['error'=> 200,'data' => $product], 200);
         //return response()->json($product,500);
     }
