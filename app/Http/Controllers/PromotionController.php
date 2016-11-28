@@ -27,7 +27,7 @@ class PromotionController extends Controller
         }
         else
         {
-            $product = Promotion::all();
+            $product = Promotion::paginate($limit);
         }
         return response()->json(['error'=> 200,'data' => $product], 200);
         //return response()->json($product,500);
