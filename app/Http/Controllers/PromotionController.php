@@ -12,6 +12,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Promotion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PromotionController extends Controller
 {
@@ -22,8 +23,7 @@ class PromotionController extends Controller
         $limit = $request->input('limit')?$request->input('limit'):5;
         if($search_term)
         {
-            $product = Promotion::find(1);
-            //var_dump($product); exit();
+            $product = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->paginate($limit);
         }
         else
         {
