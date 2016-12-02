@@ -9,9 +9,28 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Promotion extends Model
 {
     protected $table = 'promotion_list';
-    public $fillable = ['name','description','start_time','end_time','image','address','lat','long'];
+    public $fillable = ['name','description','start_time','end_time','image','cate_id','address','lat','long'];
+    public static function getAllPromotion($params = array())
+    {
+        $where = [];
+        foreach ($params as $key => $value) {
+            if (isset($value['key']))
+                $key = $value['key'];
+            $comparison = "=";
+            if (isset($value['comparison']))
+                $comparison = $value['comparison'];
+            $value = $value['value'];
+            $where[] = [$key,$comparison,$value];
+        }
+//        print_r($where); exit();
+        $promotion = Promotion::select(DB::raw(" *,DATE_FORMAT(start_time,'%d-%m-%Y') as start_time,DATE_FORMAT(end_time,'%d-%m-%Y') as end_time"));
+        $promotion = $promotion->where($where);
+        $promotion = $promotion->get();
+        return $promotion;
+    }
 }

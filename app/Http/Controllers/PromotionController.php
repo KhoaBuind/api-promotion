@@ -19,41 +19,26 @@ class PromotionController extends Controller
     public function index(Request $request)
     {
 
-        $search_term = $request->input('search');
-        $limit = $request->input('limit')?$request->input('limit'):5;
-        if($search_term)
+//        $search_term = $request->input('search');3
+        $idPromotion = $request->input('id');
+        $limit = $request->input('limit')?$request->input('limit'):100;
+
+        if($idPromotion)
         {
-            $product = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->paginate($limit);
+            $params[] = array('key' => 'id', 'value' => $idPromotion, 'comparison' => '=');
+            $result = Promotion::getAllPromotion($params);
+            if(!$result){
+                return response()->json(['error'=> 404,'message' => 'Promotion does not exist'], 404);
+            }
         }
         else
         {
-            $product = Promotion::paginate($limit);
-        }
-        return response()->json(['error'=> 200,'data' => $product], 200);
-        //return response()->json($product,500);
-    }
+            $params = [];
+            $result['near'] = Promotion::getAllPromotion($params);
+            $result['like'] = Promotion::getAllPromotion($params);
 
-    public function getProduct($id)
-    {
-        $product = Promotion::find($id);
-        return response()->json($product);
-    }
-    public function createProduct(Request $request)
-    {
-        $poduct = Promotion::create($request->all());
-        return response()->json($poduct);
-    }
-    public function  updateProduct(Request $request,$id)
-    {
-        $product = Promotion::find($id);
-        $product-> name = $request->input('name');
-        $product-> details = $request->input('detail');
-        $product-> save();
-        return response()->json($product);
-    }
-    public function deleteProduct($id){
-        $product  = Promotion::find($id);
-        $product->delete();
-        return response()->json('deleted');
+        }
+        return response()->json(['error'=> 200,'detail' => $result], 200);
+        //return response()->json($product,500);
     }
 }
