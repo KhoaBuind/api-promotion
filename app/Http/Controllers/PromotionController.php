@@ -34,8 +34,8 @@ class PromotionController extends Controller
         else
         {
             $params = [];
-            $result['near'] = Promotion::getAllPromotion($params);
-            $result['like'] = Promotion::getAllPromotion($params);
+            $result['new'] = Promotion::getAllPromotion($params);
+            $result['hot'] = Promotion::getAllPromotion($params);
 
         }
         return response()->json(['error'=> 200,'detail' => $result], 200);
