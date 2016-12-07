@@ -19,7 +19,7 @@ class PromotionController extends Controller
     public function index(Request $request)
     {
 
-//        $search_term = $request->input('search');3
+//        $search_term = $request->input('search');
         $idPromotion = $request->input('id');
         $limit = $request->input('limit')?$request->input('limit'):100;
 
