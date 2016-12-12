@@ -27,12 +27,10 @@ class SearchController extends Controller
         $result = [];
         if($search_term && $lat && $lon && $distance)
         {
-            echo $lat; exit();
             $result = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->get();
         }
         else if ($search_term)
         {
-            echo $search_term; exit();
             $result = Promotion::find(2);
         }
         else if ($lat && $lon && $distance)
