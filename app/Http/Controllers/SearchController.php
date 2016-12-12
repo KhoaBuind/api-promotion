@@ -22,21 +22,22 @@ class SearchController extends Controller
         $search_term = $request->input('search');
         $lat = $request->input('lat');
         $lon = $request->input('long');
-        $currentLocation = $request->input('current');
+        $distance = $request->input('distance');
         $limit = $request->input('limit')?$request->input('limit'):100;
-        if($search_term)
+        $result = [];
+        if($search_term && $lat && $lon && $distance)
         {
+            echo $lat; exit();
             $result = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->get();
-            if(!$result){
-                return response()->json(['error'=> 404,'message' => 'Not Found!!!!'], 404);
-            }
         }
-        else if ($lat && $lon && $currentLocation)
+        else if ($search_term)
         {
-            $result = Promotion::all();
-            if(!$result){
-                return response()->json(['error'=> 404,'message' => 'Not Found!!!!'], 404);
-            }
+            echo $search_term; exit();
+            $result = Promotion::find(2);
+        }
+        else if ($lat && $lon && $distance)
+        {
+            $result = Promotion::find(1);
         }
 
         return response()->json(['error'=> 200,'detail' => $result], 200);
