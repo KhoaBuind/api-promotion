@@ -27,15 +27,15 @@ class SearchController extends Controller
         $result = [];
         if($search_term && $lat && $lon && $distance)
         {
-            $result = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->get();
+            $result[] = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->get();
         }
         else if ($search_term)
         {
-            $result = Promotion::find(2);
+            $result[] = Promotion::find(1);
         }
         else if ($lat && $lon && $distance)
         {
-            $result = Promotion::find(1);
+            $result[] = Promotion::find(1);
         }
 
         return response()->json(['error'=> 200,'detail' => $result], 200);
