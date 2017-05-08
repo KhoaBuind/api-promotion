@@ -27,7 +27,12 @@ class SearchController extends Controller
         $result = [];
         if($search_term && $lat && $lon && $distance)
         {
-            $result = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")->get();
+            list($latitudeMin, $longitudeMin) = self::subDistance($lat, $lon, $distance);
+            list($latitudeMax, $longitudeMax) = self::addDistance($lat, $lon, $distance);
+            $result = Promotion::orderBy('id', 'DESC')->where('name', 'LIKE', "%$search_term%")
+                ->whereBetween('lat',[$latitudeMax,$latitudeMin])
+                ->whereBetween('long',[$longitudeMax,$longitudeMin])
+                ->get();
         }
         else if ($search_term)
         {
@@ -35,7 +40,12 @@ class SearchController extends Controller
         }
         else if ($lat && $lon && $distance)
         {
-            $result = Promotion::find(1);
+            list($latitudeMin, $longitudeMin) = self::subDistance($lat, $lon, $distance);
+            list($latitudeMax, $longitudeMax) = self::addDistance($lat, $lon, $distance); //exit();
+            $result = Promotion::orderBy('id', 'DESC')
+                ->whereBetween('lat',array($latitudeMin,$latitudeMax))
+                ->whereBetween('long',array($longitudeMin,$longitudeMax))
+                ->get();
         }
 
         return response()->json(['error'=> 200,'detail' => $result], 200);
