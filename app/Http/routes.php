@@ -25,6 +25,7 @@ $app->get('promotion','PromotionController@index');
 
 //Category List
 $app->get('promotionCate','CategoryController@index');
+$app->get('promotionCate/{id}','CategoryController@getPromotion');
 
 //Search List
 $app->get('promotionSearch','SearchController@index');

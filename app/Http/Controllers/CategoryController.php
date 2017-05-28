@@ -34,4 +34,17 @@ class CategoryController extends Controller
         }
         return response()->json(['error'=> 200,'data' => $category], 200);
     }
+    public function getPromotion($id)
+    {
+//        $limit = $request->input('limit')?$request->input('limit'):100;
+        if($id)
+        {
+            $params[] = array('key' => 'cate_id', 'value' => $id, 'comparison' => '=');
+            $result = Promotion::getAllPromotion($params);
+            if(!$result){
+                return response()->json(['error'=> 404,'message' => 'Promotion does not exist'], 404);
+            }
+        }
+        return response()->json(['error'=> 200,'detail' => $result], 200);
+    }
 }
