@@ -30,7 +30,8 @@ class Promotion extends Model
 //        print_r($where); exit();
 //        $promotion = Promotion::select(DB::raw(" *,DATE_FORMAT(start_time,'%d-%m-%Y') as start_time,DATE_FORMAT(end_time,'%d-%m-%Y') as end_time"));
         $promotions = Promotion::where($where);
-        $promotions = $promotions->get();
+        $promotions= $promotions->paginate(10);
+//        $promotions = $promotions->get();
         foreach ($promotions as $k => $promotion)
         {
             $promotions[$k]['start_time'] = strtotime($promotion->start_time);
